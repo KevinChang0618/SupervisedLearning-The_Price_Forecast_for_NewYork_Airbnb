@@ -1,0 +1,84 @@
+---
+title: "project_620"
+author: "Yujui Chang"
+date: "2020/11/21"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## regression tree
+```{r}
+library(tidyverse)
+ab <- read.csv("AB_NYC_2019-1.csv")
+ab
+```
+# tidy data
+```{r}
+ab <- ab %>% 
+      select(-id,-name,-host_id,-host_name, -reviews_per_month)
+
+ab %>%
+  filter(minimum_nights <= 14) -> ab
+
+which(ab$number_of_reviews==0) -> drop_ab
+ab[-drop_ab,] -> ab
+
+ab
+```
+
+# split to training and testing data
+```{r}
+set.seed(12345)
+
+training <- sample(1:nrow(ab), 0.6*nrow(ab))
+
+ab.training <- ab[training,-3] 
+ab.training.results <- ab[training,3]
+
+ab.test <- ab[-training,-3]
+ab.test.results <- ab[-training,3]
+```
+
+# build regression tree
+```{r}
+library(tree)
+
+ab.tree <- tree(price ~ minimum_nights+  number_of_reviews,
+                data= ab[training,]) ## mindev default value is 0.01
+                                     ## higher mindev will have smaller tree
+plot(ab.tree)
+text(ab.tree,cex=0.8)
+```
+
+# find best tree
+```{r}
+best.mindev <- -1
+RMSE <- -1
+best.RMSE <- 99999999
+for (i in 1:100) {
+  ab.tree <- tree(price ~  minimum_nights+  number_of_reviews, data= ab[training,], mindev=0.0005*i)
+  ab.tree.predictions <- predict(ab.tree, ab)[-training]
+  RMSE <- (mean((ab.test.results- ab.tree.predictions)^2))^0.5
+  if (RMSE < best.RMSE) {
+    best.mindev <- 0.0005*i
+    best.RMSE <- RMSE
+  }
+}
+print(paste("The optimal value of mindev is",best.mindev,"with a RMSE of",best.RMSE))
+```
+
+```{r}
+# The following commands re-create and plot the optimal tree
+ab.best.tree <- tree(price ~ minimum_nights+ number_of_reviews, data= ab[training,], mindev= best.mindev )
+
+plot(ab.best.tree)
+text(ab.best.tree, cex=0.75)
+```
+
+
+
+
+
