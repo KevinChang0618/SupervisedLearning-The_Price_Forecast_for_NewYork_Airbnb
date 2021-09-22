@@ -7,10 +7,10 @@ At first, we tidy the data on cleaning csv file, dropping some missing values, a
 - Linear Regression: RMSE is 164. We can see the result that minimum nights, number of reviews, neightbourhood group, and room type are all significant variables. According to the model, living in Manhattan is the most expensive choice.
 ![image](https://user-images.githubusercontent.com/67025904/134411260-218ee73d-9365-47f5-a051-20ceeb1c4574.png)
 
-- Regression Tree: RMSE is 207. According to tree plot, if we want to save money to find lowest price, we should choose "minimum nights < 1.5" which means one night stay at NY and reviews number should greater than 9.  
+- Regression Tree: RMSE is 207. According to tree plot, if we want to save money to find lowest price, we should choose "minimum nights < 1.5" which means one night stay at NY and reviews numbers should be greater than 9.  
 ![image](https://user-images.githubusercontent.com/67025904/134411679-68e51361-eb30-4f5c-9c4d-14d6383762fd.png)
 
-- KNN models: RMSE is 212. We try to find the best k value to get the lowest RMSE model.
+- KNN models: RMSE is 212. We use for-loop to find the best k value to get the lowest RMSE model.
 ![image](https://user-images.githubusercontent.com/67025904/134413247-835d699f-7b78-42a9-a1b0-af3e477d5ec5.png)
 
 # Conclusion
