@@ -17,4 +17,4 @@ At first, we tidy the data on cleaning csv file, dropping some missing values, a
 - During the tests, we found Tree is the most easy model to interpret because we can see the tree plot and answer YES or NO to make the decision. After we compare RMSE during three models (Linear Regression with 164; Regression Tree with 207; KNN model with 212), we choose Linear Regression being our best model to predict price. 
 
 # Resource
-Data is from Kaggle.
+Data is from Kaggle. 
